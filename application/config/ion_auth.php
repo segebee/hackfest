@@ -87,7 +87,7 @@ $config['join']['groups'] = 'group_id';
  | Be careful how high you set max_rounds, I would do your own testing on how long it takes
  | to encrypt with x rounds.
  */
-$config['hash_method']    = 'sha1';	// sha1 or bcrypt, bcrypt is STRONGLY recommended
+$config['hash_method']    = 'bcrypt';	// sha1 or bcrypt, bcrypt is STRONGLY recommended
 $config['default_rounds'] = 8;		// This does not apply if random_rounds is set to true
 $config['random_rounds']  = FALSE;
 $config['min_rounds']     = 5;
@@ -179,7 +179,7 @@ $config['email_forgot_password_complete'] = 'new_password.tpl.php';
  | fbaa5e216d163a02ae630ab1a43372635dd374c0 with default salt.
  */
 $config['salt_length'] = 22;
-$config['store_salt']  = YES;
+$config['store_salt']  = TRUE;
 
 /*
  | -------------------------------------------------------------------------

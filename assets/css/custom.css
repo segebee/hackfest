@@ -1,0 +1,15 @@
+/* here you can put your own css to customize and override the theme */
+.capitalize {
+	text-transform: capitalize;
+}
+.push-right{
+	float: right;
+	clear: right;
+} 
+.push-right a{
+	text-decoration: none;
+} 
+.push-right a:hover{
+	text-decoration: none;
+	color: white;
+} 

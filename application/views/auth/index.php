@@ -1,5 +1,3 @@
-<?php include "auth_header.php" ?>
-
 <div id="wrap">
   <div id="banner">
     <div id="login">
@@ -38,4 +36,3 @@
   <div id="content">
   </div>
 </div>
-<?php include "auth_footer.php"; ?>

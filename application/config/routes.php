@@ -78,5 +78,14 @@ $route['default_controller'] = 'auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['register'] = "auth/register";
+$route['create_user'] = "auth/create_user";
+$route['login'] = "auth/login";
+$route['logout'] = "auth/logout";
+
+$route['dashboard'] = "portal/dashboard";
+$route['forgot_password'] = "auth/forgot_password";
+$route['reset_password'] = "auth/reset_password";
+$route['change_password'] = "portal/change_password";
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

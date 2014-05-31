@@ -5,45 +5,26 @@ class Auth extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->library('ion_auth');
-		$this->load->library('form_validation');
-		$this->load->helper('url');
-
-		// Load MongoDB library instead of native db driver if required
-		$this->config->item('use_mongodb', 'ion_auth') ?
-		$this->load->library('mongo_db') :
-
-		$this->load->database();
-
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
 		$this->lang->load('auth');
 		$this->load->helper('language');
+		$this->data['header'] = 'auth/login_header';
+		$this->data['footer'] = 'auth/login_footer';
 	}
 
 	//redirect if needed, otherwise display the user list
 	function index()
 	{
-
-		if ($this->ion_auth->logged_in())
+		if (!$this->ion_auth->logged_in())
 		{
 			//redirect them to the login page
-			//echo sha1(sha1('admin').md5('admin')); 
-			redirect('auth/login', 'refresh');
+			redirect('login', 'refresh');
 		}
 		else
 		{
-			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
-			//list the users
-			$this->data['users'] = $this->ion_auth->users()->result();
-			foreach ($this->data['users'] as $k => $user)
-			{
-				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-			}
-
-			$this->_render_page('auth/index', $this->data);
+			//redirect them to the login page
+			redirect('dashboard', 'refresh');
 		}
 	}
 
@@ -56,8 +37,8 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
-			$this->data['a'] = 'a';
-			$this->_render_page('auth/register', $this->data);
+			$this->data['body'] = 'auth/register';
+			render_page('ccn_tpl', $this->data);
 		}
 	}
 
@@ -72,11 +53,7 @@ class Auth extends CI_Controller {
 
 		if ($this->form_validation->run() == true)
 		{
-			//check to see if the user is logging in
-			//check for "remember me"
-			$remember = (bool) $this->input->post('remember');
-
-			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
+			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password')))
 			{
 				//if the login is successful
 				//redirect them back to the home page
@@ -88,7 +65,7 @@ class Auth extends CI_Controller {
 				//if the login was un-successful
 				//redirect them back to the login page
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
+				redirect('login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		}
 		else
@@ -106,8 +83,8 @@ class Auth extends CI_Controller {
 				'id' => 'password',
 				'type' => 'password',
 			);
-
-			$this->_render_page('auth/login', $this->data);
+			$this->data['body'] = 'auth/login_form';
+			render_page('ccn_tpl', $this->data);
 		}
 	}
 
@@ -121,7 +98,7 @@ class Auth extends CI_Controller {
 
 		//redirect them to the login page
 		$this->session->set_flashdata('message', $this->ion_auth->messages());
-		redirect('auth/login', 'refresh');
+		redirect('login', 'refresh');
 	}
 
 	//change password
